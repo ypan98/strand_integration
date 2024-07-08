@@ -9,7 +9,10 @@ This extension provides an actual implementation of LPMVS and a data structure t
 You can install from source. OpenCV and OpenMP are required to build the extension.
 
 ```bash
+conda env create -f environment_linux.yml
+conda activate lpmvs
 cd cpp_ext
+./install_opencv.sh
 pip install .
 ```
 

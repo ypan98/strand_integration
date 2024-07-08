@@ -1,0 +1,19 @@
+# This assumes CUDA 12.1 is installed on the system
+name: lpmvs
+channels:
+  - defaults
+  - conda-forge
+  - pytorch
+  - nvidia
+dependencies:
+  - python=3.11
+  - pytorch::pytorch-cuda=12.1
+  - pytorch::pytorch=2.1.0
+  - pytorch::torchaudio=2.1.0
+  - pytorch::torchvision=0.16.0
+  - opencv
+  - matplotlib
+  - pathlib
+  - tqdm
+
+
