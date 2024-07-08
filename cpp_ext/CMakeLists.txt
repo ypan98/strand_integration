@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION  3.22.4)
+cmake_minimum_required(VERSION  3.22.1)
 
 project(strandtools LANGUAGES CXX)
 
@@ -63,10 +63,23 @@ install(TARGETS _strandtools_impl LIBRARY DESTINATION strandtools)
 include_directories(src/include)
 
 # OpenCV
-find_package(OpenCV REQUIRED)
+# find_package(OpenCV REQUIRED)
+# include_directories(${OpenCV_INCLUDE_DIRS})
+# # target_link_libraries(_strandtools_impl PRIVATE ${OpenCV_LIBS})
+# target_link_libraries(_strandtools_impl PRIVATE opencv_core opencv_imgproc)
+
+# OpenCV
+set(OpenCV_DIR "./opencv/build")
+# print opencv dir
+message(STATUS "OpenCV_DIR: ${OpenCV_DIR}")
+find_package(OpenCV REQUIRED PATHS ${OpenCV_DIR})
+if(NOT OpenCV_FOUND)
+    message(FATAL_ERROR "OpenCV not found")
+endif()
 include_directories(${OpenCV_INCLUDE_DIRS})
-# target_link_libraries(_strandtools_impl PRIVATE ${OpenCV_LIBS})
-target_link_libraries(_strandtools_impl PRIVATE opencv_core opencv_imgproc)
+target_link_libraries(_strandtools_impl PRIVATE ${OpenCV_LIBS})
+
+
 
 # OpenMP
 if(APPLE)
