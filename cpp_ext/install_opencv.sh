@@ -7,7 +7,7 @@ set -e
 OPENCV_VERSION="4.5.5"
 
 # Define installation directory
-INSTALL_DIR="."
+INSTALL_DIR="$HOME/.local"
 
 # Clone OpenCV and OpenCV contrib repositories
 echo "Cloning OpenCV repositories..."

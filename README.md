@@ -30,11 +30,12 @@ You can download the full-scale multi-view images from [release page](https://gi
 Our code requires to install the our custom Python extension implemented in C++. Please build and install it before running our code.  
 
 ```bash
+conda env create -f environment_linux.yml
+conda activate lpmvs
 cd cpp_ext
+./install_opencv.sh
 pip install .
 ```
-
-For more details, please refer to [cpp_ext](cpp_ext/).
 
 
 ## Running
