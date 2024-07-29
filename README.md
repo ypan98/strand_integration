@@ -38,7 +38,7 @@ pip install .
 ```
 
 
-## Running
+## Running step by step
 
 ```bash
 # Convert
@@ -65,6 +65,9 @@ python run_strand_integration.py result/lpmvs/straight_s --consistency result/co
 python run_line_filtering.py result/si/straight_s result/merged_ply/si/straight_s.ply
 # After running all views, you can merge the results same as the above process.
 ```
+
+## Running full pipeline with script
+
 
 ## BibTeX
 
