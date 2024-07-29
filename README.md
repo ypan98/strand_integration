@@ -67,7 +67,10 @@ python run_line_filtering.py result/si/straight_s result/merged_ply/si/straight_
 ```
 
 ## Running full pipeline with script
-
+```bash
+chmod +x run_full_pipeline.sh
+./run_full_pipeline.sh {PATH_TO_COLMAP_DATASET}
+```
 
 ## BibTeX
 
