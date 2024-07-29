@@ -15,5 +15,6 @@ dependencies:
   - matplotlib
   - pathlib
   - tqdm
+  - OpenEXR
 
 

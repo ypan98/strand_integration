@@ -15,6 +15,7 @@ def main():
     parser.add_argument("output", type=Path, help="Filename of the output ply file")
     parser.add_argument("--num_neighbors", type=int, default=6)
     parser.add_argument("--num_least_consisten_neigbor", type=int, default=2)
+    parser.add_argument("--skip_filter", default=False, action="store_true")
     parser.add_argument("-tp", "--thresh_position", type=float, default=2.7)
     parser.add_argument("-td", "--thresh_angle", type=float, default=10.0, help="degree")
     parser.add_argument("--ratio", type=float, default=1.0)
@@ -42,7 +43,7 @@ def main():
     print("Start 3D line filtering")
     print(info)
 
-    apply_filtering = args.thresh_position != np.inf or args.thresh_angle != np.inf
+    apply_filtering = not args.skip_filter and (args.thresh_position != np.inf or args.thresh_angle != np.inf)
 
     num_points_origin_list = []
     num_points_filtered_list = []

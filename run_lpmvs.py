@@ -18,8 +18,10 @@ def main():
     parser.add_argument("--depth_perturbation", type=float, default=1.0)
     parser.add_argument("--direction_perturbation", type=float, default=0.01)
     parser.add_argument("--max_iter", type=int, default=25)
-    parser.add_argument("--min_depth", type=float, default=100.0)
-    parser.add_argument("--max_depth", type=float, default=255.0)
+    # parser.add_argument("--min_depth", type=float, default=100.0)
+    # parser.add_argument("--max_depth", type=float, default=255.0)
+    parser.add_argument("--min_depth", type=float, default=20.0)
+    parser.add_argument("--max_depth", type=float, default=100.0)
     # output
     parser.add_argument("-o", "--output", type=Path)
     # others

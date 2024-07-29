@@ -74,11 +74,11 @@ def read_singleview(path: Path, *, read_images: bool = True) -> strandtools.Sing
         # If both files exist, read them
         view.img_orientation2d = cv2.imread(str(filename_orientation), -1)
         view.img_confidence = cv2.imread(str(filename_confidence), -1)
-    # else:
-    #     # If not, generate them
-    #     img_orientation2d, img_confidence = strandtools.generate_orientation_map(view.img_intensity, num=180)
-    #     view.img_orientation2d = img_orientation2d
-    #     view.img_confidence = img_confidence
+    else:
+        # If not, generate them
+        img_orientation2d, img_confidence = strandtools.generate_orientation_map(view.img_intensity, num=180)
+        view.img_orientation2d = img_orientation2d
+        view.img_confidence = img_confidence
 
     # Depthmap and direction if available
     filename_depth = path / configs.filename_depth

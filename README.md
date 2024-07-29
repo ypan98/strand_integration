@@ -40,6 +40,10 @@ For more details, please refer to [cpp_ext](cpp_ext/).
 ## Running
 
 ```bash
+# Convert
+python convert_data.py --input ../Datasets/hair/00002 --compute_orientation
+# Convert custom (COLMAP) data format to the format used in this codebase.
+
 # LPMVS
 python run_lpmvs.py data/straight_s -o result/lpmvs/straight_s 
 # Estimate a 3D line map for each view from multi-view images.
