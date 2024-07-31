@@ -16,7 +16,7 @@ echo "**************** LPMVS pipeline complete ****************"
 
 echo "**************** Running Strand Integration pipeline ****************"
 echo "Estimating depth maps and 3d orientations..."
-python run_consistency_map.py result/lpmvs/straight_s -o result/consistency/straight_s
+python run_consistency_map.py result/lpmvs/$folder_name -o result/consistency/$folder_name
 echo "Filtering output..."
 python run_strand_integration.py result/lpmvs/$folder_name --consistency result/consistency/$folder_name -o result/si/$folder_name
 echo "Filtering output..."
