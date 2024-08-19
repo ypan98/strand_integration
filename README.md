@@ -64,6 +64,14 @@ python run_strand_integration.py result/lpmvs/straight_s --consistency result/co
 # 3D line filtering (for Strand Integration)
 python run_line_filtering.py result/si/straight_s result/merged_ply/si/straight_s.ply
 # After running all views, you can merge the results same as the above process.
+
+# Run 3D line filtering (for LPMVS V2)
+python run_line_filtering.py result/lpmvs/straight_s result/merged_ply/lpmvs_v2/straight_s.ply -s
+# Modified version with forward euler method to generate strands
+
+# Run 3D line filtering (for Strand Integration V2)
+python run_line_filtering.py result/si/straight_s result/merged_ply/si_v2/straight_s.ply -s
+# Modified version with forward euler method to generate strands
 ```
 
 ## Running full pipeline with script

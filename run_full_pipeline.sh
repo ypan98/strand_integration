@@ -19,3 +19,9 @@ echo "############ Executing strand integration ############"
 python run_strand_integration.py result/lpmvs/$folder_name --consistency result/consistency/$folder_name -o result/si/$folder_name
 echo "############ Filtering output ############"
 python run_line_filtering.py result/si/$folder_name result/merged_ply/si/$folder_name.ply
+
+echo "######################## Running LPMVS V2 pipeline "########################
+python run_line_filtering.py result/lpmvs/$folder_name result/merged_ply/lpmvs_v2/$folder_name.ply -s
+
+echo "######################## Running Strand Integration V2 pipeline ########################"
+python run_line_filtering.py result/si/$folder_name result/merged_ply/si_v2/$folder_name.ply -s

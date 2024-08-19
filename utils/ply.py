@@ -1,7 +1,9 @@
 from pathlib import Path
-from typing import Tuple, Optional
+from typing import Tuple, Optional, List
+
 import numpy as np
 from tqdm import trange
+from plyfile import PlyData, PlyElement
 
 
 def write_ply(
@@ -152,3 +154,51 @@ def read_ply(filename: Path, *, verbose: bool = False) -> Tuple[np.ndarray, np.n
                 normals[i] = np.frombuffer(f.read(12), dtype=np.float32)
 
     return points, colors, normals, comment
+
+def write_ply_strands(filename, strands: List[np.ndarray]):
+    filename = Path(filename)
+    if filename.suffix != ".ply":
+        raise ValueError("File extension must be .ply")
+    filename.parent.mkdir(parents=True, exist_ok=True)
+    # get data from strands
+    points = []
+    directions = []
+    strand_roots = []
+    points_id_to_strand_id = []
+    strand_count = 0
+    for strand in strands:
+        if len(strand) < 2:
+            continue
+        strand_arr = np.array(strand)
+        subarray_1 = strand_arr[0:-1]
+        subarray_2 = strand_arr[1:]
+        strand_direction = subarray_2 - subarray_1
+        strand_ids = (np.ones(len(strand)-1) * strand_count).astype(np.int64)
+        points.append(subarray_1)
+        directions.append(strand_direction)
+        strand_roots.append(strand[0])
+        points_id_to_strand_id.append(strand_ids)
+        strand_count += 1
+    points = np.concatenate(points)
+    directions = np.concatenate(directions)
+    strand_roots = np.array(strand_roots)
+    points_id_to_strand_id = np.concatenate(points_id_to_strand_id)
+    # saving to ply
+    # create vertex
+    dtype = [(attribute, 'float32') for attribute in ['x', 'y', 'z', 'nx', 'ny', 'nz']]
+    attributes =  np.concatenate((points, directions), axis=1)
+    elements = np.empty(points.shape[0], dtype=dtype)
+    elements[:] = list(map(tuple, attributes))
+    vertex_elem = PlyElement.describe(elements, 'vertex')
+    # create strand root
+    dtype = [(attribute, 'float32') for attribute in ['x', 'y', 'z']]
+    elements = np.empty(strand_roots.shape[0], dtype=dtype)
+    elements[:] = list(map(tuple, strand_roots))
+    root_elem = PlyElement.describe(elements, 'strand_root')
+    # create strand id
+    dtype = [('points_id_to_strand_id', 'i4')]
+    elements = np.empty(points_id_to_strand_id.shape[0], dtype=dtype)
+    elements[:] = points_id_to_strand_id.tolist()
+    strand_id_elem = PlyElement.describe(elements, 'points_id_to_strand_id')
+    # save to ply
+    PlyData([vertex_elem, root_elem, strand_id_elem]).write(filename)

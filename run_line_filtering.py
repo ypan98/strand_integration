@@ -19,6 +19,7 @@ def main():
     parser.add_argument("-tp", "--thresh_position", type=float, default=2.7)
     parser.add_argument("-td", "--thresh_angle", type=float, default=10.0, help="degree")
     parser.add_argument("--ratio", type=float, default=1.0)
+    parser.add_argument("--compute_strands", "-s", action="store_true", help="Whether to compute strand topology using forward euler method")
     parser.add_argument("--imshow", action="store_true")
     args = parser.parse_args()
 
@@ -119,11 +120,16 @@ def main():
     print(f"Number of points (filtered): {total_num_points_filtered}")
     print(f"Ratio of remained points: {total_num_points_filtered / total_num_points_origin * 100:0.2f} [%]")
     print(f"Ratio of removed points: {100.0 - total_num_points_filtered / total_num_points_origin * 100:0.2f} [%]")
-
     print(f"Number of points: {len(points)}")
-    print("Export ply file")
-    utils.write_ply(args.output, points, colors, directions, comment=info)
-
+    
+    # wheter to compute strand topology
+    if not args.compute_strands:
+        utils.write_ply(args.output, points, colors, directions, comment=info)
+    else:
+        print("Generating strands")
+        strands = utils.generate_strands(points, directions)
+        utils.write_ply_strands(args.output, strands)
+    
 
 if __name__ == "__main__":
     main()
