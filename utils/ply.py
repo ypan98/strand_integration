@@ -165,6 +165,8 @@ def write_ply_strands(filename, strands: List[np.ndarray]):
     directions = []
     strand_roots = []
     points_id_to_strand_id = []
+    edges = []
+    points_count = 0
     strand_count = 0
     for strand in strands:
         if len(strand) < 2:
@@ -173,16 +175,24 @@ def write_ply_strands(filename, strands: List[np.ndarray]):
         subarray_1 = strand_arr[0:-1]
         subarray_2 = strand_arr[1:]
         strand_direction = subarray_2 - subarray_1
-        strand_ids = (np.ones(len(strand)-1) * strand_count).astype(np.int64)
+        strand_num_points = subarray_1.shape[0]
+        strand_ids = (np.ones(strand_num_points) * strand_count).astype(np.int64)
         points.append(subarray_1)
         directions.append(strand_direction)
         strand_roots.append(strand[0])
         points_id_to_strand_id.append(strand_ids)
+        if strand_num_points > 1:
+            edges_vertex_1 = np.arange(strand_num_points) + points_count
+            edges_vertex_2 = np.arange(strand_num_points) + points_count + 1
+            edges_ = np.stack((edges_vertex_1, edges_vertex_2), axis=1)
+            edges.append(edges_)
         strand_count += 1
-    points = np.concatenate(points)
-    directions = np.concatenate(directions)
+        points_count += strand_num_points
+    points = np.concatenate(points, axis=0)
+    directions = np.concatenate(directions, axis=0)
     strand_roots = np.array(strand_roots)
     points_id_to_strand_id = np.concatenate(points_id_to_strand_id)
+    edges = np.concatenate(edges, axis=0)
     # saving to ply
     # create vertex
     dtype = [(attribute, 'float32') for attribute in ['x', 'y', 'z', 'nx', 'ny', 'nz']]
@@ -200,5 +210,10 @@ def write_ply_strands(filename, strands: List[np.ndarray]):
     elements = np.empty(points_id_to_strand_id.shape[0], dtype=dtype)
     elements[:] = points_id_to_strand_id.tolist()
     strand_id_elem = PlyElement.describe(elements, 'points_id_to_strand_id')
+    # create edge
+    dtype = [('vertex1', 'i4'), ('vertex2', 'i4')]
+    elements = np.empty(edges.shape[0], dtype=dtype)
+    elements[:] = list(map(tuple, edges))
+    edge_elem = PlyElement.describe(elements, 'edge')
     # save to ply
-    PlyData([vertex_elem, root_elem, strand_id_elem]).write(filename)
+    PlyData([vertex_elem, root_elem, strand_id_elem, edge_elem]).write(filename)
