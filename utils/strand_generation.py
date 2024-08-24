@@ -27,7 +27,7 @@ def accumulate_strand_points(kdtree, visited_mask, points: np.ndarray, direction
         nn_indices = nn_indices[visited_mask[nn_indices]] if len(nn_indices) > 0 else nn_indices
     return strand
 
-def generate_strands(points: np.ndarray, directions: np.ndarray, step_size: float = 0.01, dist_th: float = 0.01, angle_th: float = 30) -> List[np.ndarray]:
+def generate_strands(points: np.ndarray, directions: np.ndarray, step_size: float = 0.1, dist_th: float = 0.1, angle_th: float = 30) -> List[np.ndarray]:
     directions = directions / np.linalg.norm(directions, axis=1)[:, None]
     total_points = points.shape[0]
     remaining_points_mask = np.ones(total_points, dtype=bool)

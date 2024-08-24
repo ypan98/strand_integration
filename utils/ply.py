@@ -188,11 +188,11 @@ def write_ply_strands(filename, strands: List[np.ndarray]):
             edges.append(edges_)
         strand_count += 1
         points_count += strand_num_points
-    points = np.concatenate(points, axis=0)
-    directions = np.concatenate(directions, axis=0)
+    points = np.concatenate(points)
+    directions = np.concatenate(directions)
     strand_roots = np.array(strand_roots)
     points_id_to_strand_id = np.concatenate(points_id_to_strand_id)
-    edges = np.concatenate(edges, axis=0)
+    edges = np.concatenate(edges)
     # saving to ply
     # create vertex
     dtype = [(attribute, 'float32') for attribute in ['x', 'y', 'z', 'nx', 'ny', 'nz']]
