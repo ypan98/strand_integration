@@ -172,10 +172,6 @@ def read_multiview(data_dir: Path, view_select: Optional[Sequence[int]] = None, 
     if not data_dir.exists():
         raise FileNotFoundError(f"{data_dir} does not exist.")
 
-    # Get subdirectories
-    # /path/to/data/00
-    # /path/to/data/01
-    # /path/to/data/02
     subdir_list = get_multiview_dirs(data_dir, view_select)
 
     if verbose:
