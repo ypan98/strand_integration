@@ -1,13 +1,16 @@
 #!/bin/bash
 
 original_data_folder=$1
+# depth range in cm for filtering
+min_depth=$2    
+max_depth=$3
 folder_name=$(basename "$original_data_folder")
 
 echo "######################## Converting data "########################
 python convert_data.py --input $original_data_folder --skip_orientation
 
 echo "######################## Running LPMVS pipeline "########################
-python run_lpmvs.py data/$folder_name -o result/lpmvs/$folder_name 
+python run_lpmvs.py data/$folder_name -o result/lpmvs/$folder_name  --min_depth $min_depth --max_depth $max_depth
 python run_line_filtering.py result/lpmvs/$folder_name result/merged_ply/lpmvs/$folder_name.ply
 
 echo "######################## Running Strand Integration pipeline ########################"

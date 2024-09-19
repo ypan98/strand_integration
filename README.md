@@ -77,7 +77,7 @@ python run_line_filtering.py result/si/straight_s result/merged_ply/si_v2/straig
 ## Running full pipeline with script
 ```bash
 chmod +x run_full_pipeline.sh
-./run_full_pipeline.sh {PATH_TO_COLMAP_DATASET}
+./run_full_pipeline.sh {PATH_TO_COLMAP_DATASET} {min_depth_cm} {max_depth_cm}
 ```
 
 ## BibTeX
