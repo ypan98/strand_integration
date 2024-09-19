@@ -123,6 +123,7 @@ def main():
     print(f"Number of points: {len(points)}")
     
     # wheter to compute strand topology
+    points = points/100 # meters
     if not args.compute_strands:
         utils.write_ply(args.output, points, colors, directions, comment=info)
     else:
